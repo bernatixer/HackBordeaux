@@ -1,0 +1,42 @@
+
+.take_photo {
+	width: 30%;
+	margin: auto;
+	margin-top: 0;
+	border-radius: 50px;
+}
+
+#imageDiv {
+	width:420px; 
+	display:table-cell;
+}
+
+#responseTextArea {
+	width:580px; 
+	height:400px;
+}
+
+#wrapper {
+	width: 100%; 
+	display:table;
+}
+
+#jsonOutput {
+	width:600px; 
+	display:table-cell;
+}
+
+h1 {
+	font-size: 2vh;
+	margin: auto;
+}
+
+section {
+	background-color:#8470ff;
+}
+
+.emo {
+	font-size: 4.5vh;
+	margin-left: 5%; 
+	margin-bottom: 30%;
+}
