@@ -2,6 +2,8 @@
 var socket = io.connect('http://localhost:3000');
 var sourceImageUrl = '';
 
+var jsonaaa;
+
 $(function(){
     var video = $('video')[0];
     var canvas = $('canvas')[0];
@@ -48,14 +50,13 @@ $(function(){
   }
     };
 
-    /*var takeSnapshot = function(){
+    var takeSnapshot = function(){
         canvas.height = video.videoHeight;
         canvas.width = video.videoWidth;
         canvas.getContext('2d').drawImage(video, 0, 0);
-    };*/
+    };
   
     socket.on('detect', function (data) {
-      console.log(sourceImageUrl);
       sourceImageUrl = data.url;
       processImage();
     });
@@ -95,8 +96,7 @@ $(function(){
           "returnFaceAttributes": "emotion",
       };
 
-      document.querySelector("#sourceImage").src = sourceImageUrl;
-
+      // document.querySelector("#sourceImage").src = sourceImageUrl;
       // Perform the REST API call.
       $.ajax({
           url: uriBase + "?" + $.param(params),
@@ -115,10 +115,12 @@ $(function(){
 
       .done(function(data) {
           // Show formatted JSON on webpage.
-          var json = JSON.stringify(data, null, 2);
-          var sad_face = "<img src='../imgs/sad_face.png'></img>"
-          var happy_face =  "<img src='../imgs/not_sad.png'></img>"
-          $(".img").append(json.sadness > 50?sad_face:happy_face);
+          // var json = JSON.stringify(data, null, 2);
+          jsonaaa = data;
+          var sad_face = "<img src='../imgs/sad_face.png'></img>";
+          var happy_face =  "<img src='../imgs/not_sad.png'></img>";
+          $('.img').empty();
+          $(".img").append(data[0].faceAttributes.emotion.sadness > 0.5 ? sad_face:happy_face);
       })
 
       .fail(function(jqXHR, textStatus, errorThrown) {
