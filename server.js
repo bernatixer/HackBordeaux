@@ -2,16 +2,10 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-const fs = require('fs')
-const execSync = require('child_process').execSync
-
-setInterval(function() {
-    execSync("wget https://www.bicing.cat/availability_map/getJsonObject -O public/getJsonObject", { encoding: 'utf8' });
-}, 60000);
 
 app.use(express.static('public'))
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('*', (req, res) => res.send('404 Not found'))
 
 io.on('connection', function (socket) {
     // socket.emit('news', { hello: 'world' });
