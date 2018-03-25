@@ -1,8 +1,7 @@
 
 var socket = io.connect('http://localhost:3000');
 var sourceImageUrl = '';
-
-var jsonaaa;
+var database = firebase.database();
 
 $(function(){
     var video = $('video')[0];
@@ -96,7 +95,6 @@ $(function(){
           "returnFaceAttributes": "emotion",
       };
 
-      // document.querySelector("#sourceImage").src = sourceImageUrl;
       // Perform the REST API call.
       $.ajax({
           url: uriBase + "?" + $.param(params),
@@ -114,13 +112,13 @@ $(function(){
       })
 
       .done(function(data) {
-          // Show formatted JSON on webpage.
-          // var json = JSON.stringify(data, null, 2);
-          jsonaaa = data;
-          var sad_face = "<img src='../imgs/sad_face.png'></img>";
-          var happy_face =  "<img src='../imgs/not_sad.png'></img>";
-          $('.img').empty();
-          $(".img").append(data[0].faceAttributes.emotion.sadness > 0.5 ? sad_face:happy_face);
+          var sad_face = "<img width='100px' heigth='100px' src='../imgs/sad_face.png'></img>";
+          var happy_face =  "<img width='100px' heigth='100px' src='../imgs/not_sad.png'></img>";
+          $(".img").html(data[0].faceAttributes.emotion.sadness > 0.5 ? sad_face:happy_face);
+          firebase.database().ref('patients/' + data[0].faceId).set({
+            username: data[0].faceId,
+            status : data[0].faceAttributes.emotion.sadness > 0.5 ? sad_face:happy_face
+          });
       })
 
       .fail(function(jqXHR, textStatus, errorThrown) {

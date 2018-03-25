@@ -6,14 +6,11 @@
 </head>
 <body>
   <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
-  <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
 </head>
 <body>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script src="/socket.io/socket.io.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
   <script>
     // Initialize Firebase
@@ -26,21 +23,23 @@
       messagingSenderId: "1093296136457"
     };
     firebase.initializeApp(config);
+    firebase.database().ref('patients').on('value', function(snapshot) {
+      $('#tbody').html('');
+      snapshot.forEach(function(childSnapshot) {
+        var data = childSnapshot.val();
+        $('#tbody').append('<tr><th scope="row">'+data.username+'</th><td>'+data.status+'</td></tr>');
+      });
+    });
   </script>
-  <script src="js/index.js"></script>
-  <section class="hero is-fullheight">
-    <div class="video-container">
-      <video id="video" width="100%" autoplay></video>
-      <canvas id = "canvas"></canvas>
-    </div>
-    <button id="snapshot" class="btn btn-warning take_photo">PHOTO!</button>
-
-    <div id="wrapper">
-      <div id="jsonOutput">
-        <h1 class="emo"> Your actual emotional state is: </h1>
-        <div class="img"></div>
-      </div>
-    </div>
-  </section>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Emotion</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+  </table>
 </body>
 </html>
