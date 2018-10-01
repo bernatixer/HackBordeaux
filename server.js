@@ -8,7 +8,7 @@ const io = require('socket.io')(server)
 cloudinary.config({ 
   cloud_name: 'easycms', 
   api_key: '835622277612669', 
-  api_secret: 'EPY2WeRXUwzaXpAEOK8VzuImiv0' 
+  api_secret: '*************' 
 });
 
 var path = './';
